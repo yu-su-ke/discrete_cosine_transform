@@ -6,9 +6,9 @@ Perform discrete cosine transform of image.
 
 2. Save the image in the "image" folder  
 
-3. Change the following part according to the image file to be converted.  
+3. Please change the following part of dct_fig.py according to the image file to be converted.    
 
-```python:dct_fig.py
+```python:dct_fig.py  
 # Assign the number of pixels of the image.
 # Example: N = 50 for 50 * 50
 N = 50
