@@ -1,0 +1,7 @@
+README.md
+setup.py
+discrete_cosine_transform.egg-info/PKG-INFO
+discrete_cosine_transform.egg-info/SOURCES.txt
+discrete_cosine_transform.egg-info/dependency_links.txt
+discrete_cosine_transform.egg-info/requires.txt
+discrete_cosine_transform.egg-info/top_level.txt
