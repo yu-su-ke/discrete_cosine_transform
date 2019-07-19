@@ -1,4 +1,5 @@
 import numpy as np
+from numpy.random import *
 import matplotlib.pyplot as plt
 from PIL import Image
 
@@ -30,7 +31,19 @@ class DCT:
         if k == 0:
             return np.ones(self.N) / np.sqrt(self.N)
         else:
-            return np.sqrt(2.0 / self.N) * np.cos((k * np.pi / (2 * self.N)) * (np.arange(self.N) * 2 + 1))
+            return np.sqrt(2.0 / self.N) * np.cos((k * np.pi * (np.arange(self.N) * 2 + 1) / (2 * self.N)))
+
+    def image_loading(self, image):
+        # 画像情報の確認
+        print(image)
+        print(image.shape)
+
+        c = dct.dct2(image)  # 2次元離散コサイン変換
+        # print(c)
+        y = dct.idct2(c, number)  # 2次元離散コサイン逆変換
+        # print(y)
+
+        return c, y
 
 
 def show_image(img, c, y):
@@ -40,10 +53,10 @@ def show_image(img, c, y):
     plt.title("original")
     plt.xticks([])
     # コサイン変換
-    plt.subplot(1, 3, 2)
-    plt.imshow(c, cmap="Greys")
-    plt.title("cosine transform")
-    plt.xticks([])
+    # plt.subplot(1, 3, 2)
+    # plt.imshow(c, cmap="Greys")
+    # plt.title("cosine transform")
+    # plt.xticks([])
     # 復元した画像
     plt.subplot(1, 3, 3)
     plt.imshow(y, cmap="Greys")
@@ -53,33 +66,21 @@ def show_image(img, c, y):
 
 
 if __name__ == "__main__":
-    N = 100
-    number = 4
+    # 画像のピクセル数を代入
+    N = 50
+    # 0に丸め込む範囲の指定
+    number = 15
+    # クラスの読み込み
     dct = DCT(N)
+
     # サンプル画像を作る
-    img = np.array([
-        [0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 1, 1, 1, 1, 1, 1, 0],
-        [0, 1, 0, 0, 0, 0, 1, 0],
-        [0, 1, 0, 0, 0, 1, 1, 0],
-        [0, 0, 0, 0, 1, 1, 0, 0],
-        [0, 0, 0, 0, 1, 0, 0, 0],
-        [0, 0, 0, 0, 1, 0, 0, 0],
-        [0, 0, 0, 0, 1, 0, 0, 0],
-    ])
+    test_image = randint(0, 2, (50, 50))
 
     # 画像読み込み
-    image = np.array(Image.open('./image/test100.png'))
+    image = np.array(Image.open('./image/image3.jpg'))
     # グレースケール変換
     im_gray = 0.299 * image[:, :, 0] + 0.587 * image[:, :, 1] + 0.114 * image[:, :, 2]
-    print(im_gray)
+    c, y = dct.image_loading(im_gray)
 
-    print(im_gray.shape)
-
-    c = dct.dct2(im_gray)  # 2次元離散コサイン変換
-    # print(c)
-    y = dct.idct2(c, number)  # 2次元離散コサイン逆変換
-    # print(y)
-
+    # 画像表示
     show_image(im_gray, c, y)
-
