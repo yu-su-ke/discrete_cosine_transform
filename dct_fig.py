@@ -67,12 +67,13 @@ if __name__ == "__main__":
         [0, 0, 0, 0, 1, 0, 0, 0],
     ])
 
-    image = np.array(Image.open('./image/image.png'))
+    image = np.array(Image.open('./image/test.png'))
     print(image)
 
-    print(image.ndim)
+    print(img.shape)
+    print(image.shape)
 
-    c = dct.dct2(img)  # 2次元離散コサイン変換
+    c = dct.dct2(image)  # 2次元離散コサイン変換
     # print(c)
     y = dct.idct2(c)  # 2次元離散コサイン逆変換
     # print(y)
