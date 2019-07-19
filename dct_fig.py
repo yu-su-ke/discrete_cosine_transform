@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from PIL import Image
 
 
 class DCT:
@@ -32,26 +33,7 @@ class DCT:
             return np.sqrt(2.0 / self.N) * np.cos((k * np.pi / (2 * self.N)) * (np.arange(self.N) * 2 + 1))
 
 
-if __name__ == "__main__":
-    N = 8
-    dct = DCT(N)
-    # サンプル画像を作る
-    img = np.array([
-        [0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 1, 1, 1, 1, 1, 1, 0],
-        [0, 1, 0, 0, 0, 0, 1, 0],
-        [0, 1, 0, 0, 0, 1, 1, 0],
-        [0, 0, 0, 0, 1, 1, 0, 0],
-        [0, 0, 0, 0, 1, 0, 0, 0],
-        [0, 0, 0, 0, 1, 0, 0, 0],
-        [0, 0, 0, 0, 1, 0, 0, 0],
-    ])
-
-    c = dct.dct2(img)  # 2次元離散コサイン変換
-    # print(c)n
-    y = dct.idct2(c)  # 2次元離散コサイン逆変換
-    # print(y)
-
+def show_image(img, c, y):
     # 元の画像
     plt.subplot(1, 3, 1)
     plt.imshow(img, cmap="Greys")
@@ -68,3 +50,32 @@ if __name__ == "__main__":
     plt.title("restored")
     plt.xticks([])
     plt.show()
+
+
+if __name__ == "__main__":
+    N = 8
+    dct = DCT(N)
+    # サンプル画像を作る
+    img = np.array([
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 1, 1, 1, 1, 0],
+        [0, 1, 0, 0, 0, 0, 1, 0],
+        [0, 1, 0, 0, 0, 1, 1, 0],
+        [0, 0, 0, 0, 1, 1, 0, 0],
+        [0, 0, 0, 0, 1, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0, 0, 0],
+    ])
+
+    image = np.array(Image.open('./image/image.png'))
+    print(image)
+
+    print(image.ndim)
+
+    c = dct.dct2(img)  # 2次元離散コサイン変換
+    # print(c)
+    y = dct.idct2(c)  # 2次元離散コサイン逆変換
+    # print(y)
+
+    # show_image(img, c, y)
+
