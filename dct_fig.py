@@ -20,8 +20,8 @@ class DCT:
         return np.sum(self.phi_2d.reshape(N * N, N * N) * data.reshape(N * N), axis=1).reshape(N, N)
 
     # 2次元離散コサイン逆変換
-    def idct2(self, c):
-        c[2:, 2:] = 0
+    def idct2(self, c, number):
+        c[number:, number:] = 0
         return np.sum((c.reshape(N, N, 1) * self.phi_2d.reshape(N, N, N * N)).reshape(N * N, N * N), axis=0)\
             .reshape(N, N)
 
@@ -53,7 +53,8 @@ def show_image(img, c, y):
 
 
 if __name__ == "__main__":
-    N = 8
+    N = 100
+    number = 4
     dct = DCT(N)
     # サンプル画像を作る
     img = np.array([
@@ -67,16 +68,18 @@ if __name__ == "__main__":
         [0, 0, 0, 0, 1, 0, 0, 0],
     ])
 
-    image = np.array(Image.open('./image/test.png'))
-    print(image)
+    # 画像読み込み
+    image = np.array(Image.open('./image/test100.png'))
+    # グレースケール変換
+    im_gray = 0.299 * image[:, :, 0] + 0.587 * image[:, :, 1] + 0.114 * image[:, :, 2]
+    print(im_gray)
 
-    print(img.shape)
-    print(image.shape)
+    print(im_gray.shape)
 
-    c = dct.dct2(image)  # 2次元離散コサイン変換
+    c = dct.dct2(im_gray)  # 2次元離散コサイン変換
     # print(c)
-    y = dct.idct2(c)  # 2次元離散コサイン逆変換
+    y = dct.idct2(c, number)  # 2次元離散コサイン逆変換
     # print(y)
 
-    # show_image(img, c, y)
+    show_image(im_gray, c, y)
 
